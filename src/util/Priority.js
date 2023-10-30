@@ -3,4 +3,4 @@ export const Priority = {
     Medium: 'Medium',
     High: 'High',
     Urgent: 'Urgent',
-}
+};

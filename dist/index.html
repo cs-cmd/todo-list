@@ -6,35 +6,52 @@
     <title>Todo List</title>
 <script defer src="bundle.js"></script></head>
 <body>
-    <form id="create-todo-form" method="post" class="todo-list-form">
-        <label for="title-field">Title</label>
-        <input required placeholder="title" type="text" name="title" id="title-field" class="input-field">
 
-        <label for="date-field">Due date</label>
-        <input required type="date" id="date-field" name="date" class="input-field">
+    <aside class="todo-entry-aside">
+        <form id="create-todo-form" method="post" class="todo-list-form">
+            <label for="title-field">Title</label>
+            <input required placeholder="title" type="text" name="title" id="title-field" class="input-field">
+    
+            <label for="date-field">Due date</label>
+            <input required type="date" id="date-field" name="date" class="input-field">
+    
+            <textarea id="notes-field" placeholder="Notes..." class="input-field full-width"></textarea>
+    
+            <fieldset required class="input-field full-width" id="urgency-fieldset">
+                <legend>Priority</legend>
+                <div>
+                    <label for="low-prio">Low</label>
+                    <input checked id="low-prio" type="radio" name="priority" value="Low">
+                </div>
+                <div>
+                    <label for="med-prio">Medium</label>
+                    <input id="med-prio" type="radio" name="priority" value="Medium">
+                </div>
+                <div>
+                    <label for="high-prio">High</label>
+                    <input type="radio" name="priority" value="High">
+                </div>
+                <div>
+                    <label for="urgent-prio">Urgent</label>
+                    <input type="radio" name="priority" value="Urgent"> 
+                </div>
+            </fieldset>
+            <button type="submit" id="create-todo-button" class="full-width page-button">Create Todo</button>
+        </form>
 
-        <textarea id="notes-field" placeholder="Notes..." class="input-field full-width"></textarea>
+        <form class="create-todo-owner">
+            
+        </form>
+    </aside>
 
-        <fieldset required class="input-field full-width" id="urgency-fieldset">
-            <legend>Priority</legend>
-            <div>
-                <label for="low-prio">Low</label>
-                <input checked id="low-prio" type="radio" name="priority" value="Low">
-            </div>
-            <div>
-                <label for="med-prio">Medium</label>
-                <input id="med-prio" type="radio" name="priority" value="Medium">
-            </div>
-            <div>
-                <label for="high-prio">High</label>
-                <input type="radio" name="priority" value="High">
-            </div>
-            <div>
-                <label for="urgent-prio">Urgent</label>
-                <input type="radio" name="priority" value="Urgent"> 
-            </div>
-        </fieldset>
-        <button type="submit" id="create-todo-button" class="full-width page-button">Create Todo</button>
-    </form>
+    <main class="main-section">
+        <nav class="todo-nav">
+            <ul>
+                <li><button>All</button></li>
+            </ul>
+        </nav>
+        <div id="main-todo-container" class="todo-container"></div>
+    </main>
+
 </body>
 </html>

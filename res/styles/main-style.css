@@ -1,13 +1,26 @@
+html {
+    height: 100vh;
+}
+
 body {
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
     display: flex;
-    justify-content: center;
+}
+
+.todo-entry-aside {
+    height: 100%;
+    background-color: aqua;
+    flex: 0 0 auto;
+    padding: 0px 5px;
 }
 
 .todo-list-form {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    width: min(100%, 500px);
     gap: 10px;
+    margin: 5px 0px;
 }
 
 .full-width {
@@ -21,5 +34,21 @@ body {
 
 textarea {
     resize: none;
-    aspect-ratio: 2/1
+    aspect-ratio: 2/1;
+}
+
+.main-section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+}
+.todo-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 250px);
+    grid-template-rows: min-content;
+    grid-auto-rows: min-content;
+    flex: 1 1 auto;
+    width: 100%;
+    overflow: scroll;
 }
