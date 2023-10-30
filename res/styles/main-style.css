@@ -1,3 +1,4 @@
+/* page setup styles */
 html {
     height: 100vh;
 }
@@ -7,13 +8,22 @@ body {
     margin: 0px;
     padding: 0px;
     display: flex;
+    overflow: scroll;
 }
 
+:root {
+    --bg-main: #ede6ec;
+    --bg-accent: #FFD4FB;
+    --main-accent:#70ee7c;
+
+}
+/* todo item entry form styles */
 .todo-entry-aside {
     height: 100%;
-    background-color: aqua;
+    background-color: var(--bg-accent);
     flex: 0 0 auto;
     padding: 0px 5px;
+    overflow: scroll;
 }
 
 .todo-list-form {
@@ -37,18 +47,47 @@ textarea {
     aspect-ratio: 2/1;
 }
 
+/* todo item view styles */
 .main-section {
     width: 100%;
     display: flex;
     flex-direction: column;
-
 }
+
+.todo-nav {
+    background-color: bisque;
+    display: flex;
+    height: 100px;
+    flex: 0 0 auto;
+    gap: 15px;
+    padding: 0px 15px;
+    overflow: hidden;
+    background-color: var(--bg-accent);
+}
+
+.nav-button {
+    width: 7rem;
+    background-color: var(--main-accent);
+    border: none;
+    transition: filter .5s;
+    word-wrap: break-word;
+}
+.nav-button:hover {
+    filter: brightness(75%);
+}
+
+.nav-button:active {
+    filter: brightness(50%);
+    transition: none;
+}
+
 .todo-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, 250px);
     grid-template-rows: min-content;
     grid-auto-rows: min-content;
-    flex: 1 1 auto;
-    width: 100%;
+    grid-auto-flow: dense;
+    height: 100%;
     overflow: scroll;
+    background-color: var(--bg-main);
 }

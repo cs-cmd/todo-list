@@ -5,7 +5,6 @@ export class TodoItem {
         this.notes = notes;
         this.isComplete = false;
         this.priority = priority;
-        this.owningList = '';
     }
 
     getTitle = () => this.title;
@@ -14,9 +13,9 @@ export class TodoItem {
     isComplete = () => this.isComplete;
     getPriority = () => this.priority;
 
-    changeTitle = (newTitle) => { this.title = newTitle; }
-    changeNotes = (newNotes) => { this.notes = newNotes; }
-    toggleComplete = () => { this.isComplete = !this.isComplete; }
+    changeTitle = (newTitle) => { this.title = newTitle; };
+    changeNotes = (newNotes) => { this.notes = newNotes; };
+    toggleComplete = () => { this.isComplete = !this.isComplete; };
 
     printInfo = () => {
         console.log(this.getInfo());
@@ -28,9 +27,5 @@ export class TodoItem {
         notes::${this.notes}\n
         isComplete::${this.isComplete}\n
         priority::${this.priority}`;
-    };
-
-    addToList = (owningList) => {
-        this.owningList = owningList;
     };
 }
