@@ -21,11 +21,12 @@ export class TodoItem {
         console.log(this.getInfo());
     };
 
+    // formatted like this because `` uses the indentation used in string itself
     getInfo = () => {
-        return `title::${this.title}\n
-        date::${this.dateMade}\n
-        notes::${this.notes}\n
-        isComplete::${this.isComplete}\n
-        priority::${this.priority}`;
+        return `title::${this.title}
+date::${this.dateMade}
+notes::${this.notes}
+isComplete::${this.isComplete}
+priority::${this.priority}`;
     };
 }

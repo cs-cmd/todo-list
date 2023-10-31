@@ -1,4 +1,9 @@
 .todo-item {
     border: 1px solid black;
     width: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
 }

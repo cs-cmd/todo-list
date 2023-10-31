@@ -16,6 +16,37 @@ function addDefaultProject() {
     document.getElementById('project').appendChild(defProject);
 }
 
+function createTodoItem(todo) {
+    const divEle = document.createElement('div');
+    divEle.innerText = todo.getInfo();
+    divEle.classList.add('todo-item');
+
+    const editButton = document.createElement('button');
+    editButton.innerText = 'Edit';
+    
+    editButton.addEventListener('click', (e) => {
+        // edit dialog/other option for editing here
+    });
+
+    const removeButton = document.createElement('button');
+    removeButton.innerText = 'Remove';
+
+    // remove item from project list 
+    removeButton.addEventListener('click', (e) => {
+        console.log(':: Removing item ::');
+        // remove from list
+
+        const itemElement = e.target.parentNode;
+        itemElement.remove();
+    });
+    
+    divEle.appendChild(editButton);
+    divEle.appendChild(removeButton);
+
+
+    todoContainer.appendChild(divEle);
+}
+
 // create page element and insert into 
 document.querySelector('#create-todo-form').addEventListener('submit', (e) => {
     e.preventDefault();
@@ -32,33 +63,6 @@ document.querySelector('#create-todo-form').addEventListener('submit', (e) => {
     todoItem.printInfo();
     createTodoItem(todoItem);
 });
-
-
-function createTodoItem(todo) {
-    const divEle = document.createElement('div');
-    divEle.innerText = todo.getInfo();
-    divEle.classList.add('todo-item');
-
-    const editButton = document.createElement('button');
-    editButton.innerText = 'Edit';
-    
-    const removeButton = document.createElement('button');
-    removeButton.innerText = 'Remove';
-
-    // remove item from project list 
-    removeButton.addEventListener('click', (e) => {
-        console.log(':: Removing item ::');
-        // remove from list
-        const itemElement = e.target.parentNode;
-        itemElement.remove();
-    });
-    
-    divEle.appendChild(editButton);
-    divEle.appendChild(removeButton);
-
-
-    todoContainer.appendChild(divEle);
-}
 
 document.querySelector('#task-owner-form').addEventListener('submit', (e) => {
     e.preventDefault();
