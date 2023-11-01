@@ -38,7 +38,7 @@
             </fieldset>
 
             <label for="project-select">Project</label>
-            <select id="project-select" name="project-select"></select>
+            <select id="project-select" name="project-select" class="input-field"></select>
             <button type="submit" id="create-todo-button" class="full-width page-button">Create Todo</button>
         </form>
 
@@ -47,7 +47,7 @@
                 <legend>Create New Project</legend>
                 <label class="full-width">
                     Name:
-                    <input required minlength="5" maxlength="25" class="input-field" id="project-name" type="text"/>
+                    <input required minlength="5" maxlength="23" class="input-field" id="project-name" type="text"/>
                 </label>
                 <span class="error-text" id="name-exists-error">This project already exists!</span>
                 <button class="full-width" id='create-project-button' type="submit">Create</button>
@@ -57,8 +57,7 @@
 
     <main class="main-section">
         <nav class="todo-nav" id="todo-nav">
-            <button type="button" class="nav-button" _filter="all">All</button>
-            <button type="button" class="nav-button" _filter="projects">Project view</button>
+            <button type="button" class="nav-button" _filter="projects">Projects</button>
         </nav>
         <div id="main-todo-container" class="todo-container"></div>
     </main>

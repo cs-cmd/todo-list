@@ -25,6 +25,10 @@ class ProjectManager {
     checkIfExists(projectName) {
         return this.projects.get(projectName);
     }
+
+    getProject(projectName) {
+        return this.projects.get(projectName);
+    }
 }
 
 const projectManager = new ProjectManager;

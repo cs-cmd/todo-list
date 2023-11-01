@@ -27,6 +27,7 @@ body {
     border-radius: 5px;
     visibility: hidden;
 }
+
 /* todo item entry form styles */
 .todo-entry-aside {
     height: 100%;
@@ -55,6 +56,20 @@ body {
 textarea {
     resize: none;
     aspect-ratio: 2/1;
+}
+
+select {
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.form-option {
+    width: 100%;
+    overflow: hidden;
+    color: red;
+    text-overflow:ellipsis;
 }
 
 /* todo item view styles */

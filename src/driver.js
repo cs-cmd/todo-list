@@ -5,6 +5,9 @@ import TodoItem from './classes/TodoItem';
 import Project from './classes/Project';
 import projectManager from '../src/classes/ProjectManager';
 
+// create global objects for navigation section
+const navBar = document.getElementById('todo-nav');
+
 // create global objects for todo-item form input
 const titleInput = document.getElementById('title-field');
 const dueDateInput = document.getElementById('date-field');
@@ -16,16 +19,11 @@ const projectSelect = document.getElementById('project-select');
 // create global objects for project creation
 const projectNameInputField = document.getElementById('project-name');
 
-// add default project to spinner
-const defProject = document.createElement('option');
-defProject.value = 'Unassigned';
-defProject.innerText = 'Unassigned';
-defProject.checked = true;
-projectSelect.appendChild(defProject);
 
 // add default project to projectManager
 const defProjectObject = new Project('Unassigned');
 projectManager.addProject(defProjectObject);
+todoCreateAndAddSelect('Unassigned');
 
 // when todo item is submitted, create, add to project, add to page
 document.getElementById('create-todo-form').addEventListener('submit', (e) => {
@@ -68,12 +66,36 @@ document.getElementById('create-project-form').addEventListener('submit', (e) =>
     const newProj = new Project(projectName);
     projectManager.addProject(newProj);
 
-    // add project name to project spinner in todo item form
-    const newProjSelect = document.createElement('option');
-    newProjSelect.value = projectName;
-    newProjSelect.innerText = projectName;
-    projectSelect.appendChild(newProjSelect);
+    todoCreateAndAddSelect(projectName);
 
     // add project filter button to nav
+    todoCreateAndAddButton(projectName);
 });
+
+function todoCreateAndAddSelect(projectName) {
+    // add project name to project spinner in todo item form
+    const projectOpt = document.createElement('option');
+    projectOpt.value = projectName;
+    projectOpt.innerText = projectName;
+    projectOpt.classList.add('form-option');
+    projectSelect.appendChild(projectOpt);
+}
+
+function todoCreateAndAddButton(projectName) {
+    const projButton = document.createElement('button');
+    projButton.classList.add('nav-button');
+    projButton.setAttribute('_filter', projectName);
+    projButton.innerText = projectName;
+    projButton.addEventListener('click', () => {
+        todoRetrieveItems(projectName);
+    });
+    navBar.appendChild(projButton);
+}
+
+function todoRetrieveItems(projectName) {
+    const project = projectManager.getProject(projectName);
+
+    // display todos to page
+    console.log(project);
+}
 
