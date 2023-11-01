@@ -17,6 +17,16 @@ body {
     --main-accent:#70ee7c;
 
 }
+
+/* utility styles */
+.error-text {
+    font-size: .75rem;
+    color: red;
+    background-color: #70ee7c;
+    text-align: center;
+    border-radius: 5px;
+    visibility: hidden;
+}
 /* todo item entry form styles */
 .todo-entry-aside {
     height: 100%;

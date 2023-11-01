@@ -1,91 +1,79 @@
-import { format, parseISO } from 'date-fns';
-import { todoMaker } from './util/TodoMaker';
 import '../res/styles/main-style.css';
 import '../res/styles/todo-item-styles.css';
 import _ from 'lodash';
-import projectManager from './util/ProjectManager';
+import TodoItem from './classes/TodoItem';
 import Project from './classes/Project';
+import projectManager from '../src/classes/ProjectManager';
 
-const todoContainer = document.getElementById('main-todo-container');
+// create global objects for todo-item form input
+const titleInput = document.getElementById('title-field');
+const dueDateInput = document.getElementById('date-field');
+const notesField = document.getElementById('notes-field');
+const priorityRadios = document.querySelectorAll('input[name="priority"]');
+const projectSpinner = document.getElementById('project-select');
+const projectSelect = document.getElementById('project-select');
 
-function addDefaultProject() {
-    const defProject = document.createElement('option');
-    defProject.value = 'unassigned';
-    defProject.innerText = 'Unassigned';
-    defProject.checked = true;
-    document.getElementById('project').appendChild(defProject);
-}
+// create global objects for project creation
+const projectNameInputField = document.getElementById('project-name');
 
-function createTodoItem(todo) {
-    const divEle = document.createElement('div');
-    divEle.innerText = todo.getInfo();
-    divEle.classList.add('todo-item');
+// add default project to spinner
+const defProject = document.createElement('option');
+defProject.value = 'Unassigned';
+defProject.innerText = 'Unassigned';
+defProject.checked = true;
+projectSelect.appendChild(defProject);
 
-    const editButton = document.createElement('button');
-    editButton.innerText = 'Edit';
-    
-    editButton.addEventListener('click', (e) => {
-        // edit dialog/other option for editing here
-    });
+// add default project to projectManager
+const defProjectObject = new Project('Unassigned');
+projectManager.addProject(defProjectObject);
 
-    const removeButton = document.createElement('button');
-    removeButton.innerText = 'Remove';
-
-    // remove item from project list 
-    removeButton.addEventListener('click', (e) => {
-        console.log(':: Removing item ::');
-        // remove from list
-
-        const itemElement = e.target.parentNode;
-        itemElement.remove();
-    });
-    
-    divEle.appendChild(editButton);
-    divEle.appendChild(removeButton);
-
-
-    todoContainer.appendChild(divEle);
-}
-
-// create page element and insert into 
-document.querySelector('#create-todo-form').addEventListener('submit', (e) => {
+// when todo item is submitted, create, add to project, add to page
+document.getElementById('create-todo-form').addEventListener('submit', (e) => {
     e.preventDefault();
 
-    const title = document.getElementById('title-field').value;
-    const dateField = document.getElementById('date-field');
-    const date = format(parseISO(dateField.value), 'MM/dd/yyyy');
-    const notes = document.getElementById('notes-field').value;
-    const radios = document.getElementsByName('priority');
-    const prio = _.find(radios, function(item) { return item.checked === true; }).value; // get checked priority's value
-    const owningProject = document.getElementById('project').value;
+    console.log(':: Creating Todo Item ::');
 
-    const todoItem = todoMaker.makeItem(title, date, notes, prio);
-    todoItem.printInfo();
-    createTodoItem(todoItem);
+    const title = titleInput.value;
+    const dueDate = dueDateInput.value;
+    const notes = notesField.value;
+    // get value of priority that is checked
+    const priority = _.find(priorityRadios, (e) => { return e.checked === true; }).value;
+    const projectName = projectSpinner.value;
+    console.log(projectName);
+
+    // create todo item instance
+    const newTodo = new TodoItem(title, dueDate, notes, priority);
+
+    // add instance to chosen project
+    projectManager.addItem(projectName, newTodo);
+
+    // create page item
+
+    // add item to page
 });
 
-document.querySelector('#task-owner-form').addEventListener('submit', (e) => {
+document.getElementById('create-project-form').addEventListener('submit', (e) => {
     e.preventDefault();
-    
-    // create new project in project manager
-    const projectName = document.getElementById('owner-name').value;
+
+    console.log(':: Creating New Project ::');
+
+    // check if project name exists
+    const projectName = projectNameInputField.value;
+    if(projectManager.checkIfExists(projectName)) {
+        console.log(`:: Project ${projectName} already exists; exiting. ::`);
+        return;
+    }
+
+    // if it doesnt, add project to project manager
     const newProj = new Project(projectName);
     projectManager.addProject(newProj);
 
-    // create new UI element
-    const projectSelect = document.getElementById('project');
-    const newOption = document.createElement('option');
-    newOption.innerText = projectName;
-    newOption.value = projectName.toLowerCase();
-    projectSelect.appendChild(newOption);
+    // add project name to project spinner in todo item form
+    const newProjSelect = document.createElement('option');
+    newProjSelect.value = projectName;
+    newProjSelect.innerText = projectName;
+    projectSelect.appendChild(newProjSelect);
 
-    // create new button to view 
-    const navSection = document.getElementById('todo-nav');
-    const navButton = document.createElement('button');
-    navButton.type = 'button';
-    navButton.innerText = projectName;
-    navButton.classList.add('nav-button');
-    navSection.appendChild(navButton);
+    // add project filter button to nav
 });
 
-addDefaultProject();

@@ -10,7 +10,7 @@
     <aside class="todo-entry-aside">
         <form id="create-todo-form" method="post" class="todo-list-form">
             <label for="title-field">Title</label>
-            <input required placeholder="title" type="text" name="title" id="title-field" class="input-field">
+            <input required placeholder="Title" type="text" name="title" id="title-field" class="input-field">
     
             <label for="date-field">Due date</label>
             <input required type="date" id="date-field" name="date" class="input-field">
@@ -37,19 +37,19 @@
                 </div>
             </fieldset>
 
-            <label for="project">Project</label>
-            <select id="project" name="project"></select>
+            <label for="project-select">Project</label>
+            <select id="project-select" name="project-select"></select>
             <button type="submit" id="create-todo-button" class="full-width page-button">Create Todo</button>
         </form>
 
-        <form id="task-owner-form" class="create-todo-owner" method="post">
+        <form id="create-project-form" class="create-todo-owner" method="post">
             <fieldset class="todo-list-form">
                 <legend>Create New Project</legend>
                 <label class="full-width">
                     Name:
-                    <input minlength="5" maxlength="25" class="input-field" id="owner-name" type="text"/>
+                    <input required minlength="5" maxlength="25" class="input-field" id="project-name" type="text"/>
                 </label>
-
+                <span class="error-text" id="name-exists-error">This project already exists!</span>
                 <button class="full-width" id='create-project-button' type="submit">Create</button>
             </fieldset>
         </form>
@@ -58,7 +58,7 @@
     <main class="main-section">
         <nav class="todo-nav" id="todo-nav">
             <button type="button" class="nav-button" _filter="all">All</button>
-            <button type="button" class="nav-button" _filter="project">Project view</button>
+            <button type="button" class="nav-button" _filter="projects">Project view</button>
         </nav>
         <div id="main-todo-container" class="todo-container"></div>
     </main>

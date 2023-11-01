@@ -6,17 +6,19 @@ export default class Project {
         this.items = [];
     }
 
+    getName = () => this.name;
+
     addItem(item) {
         this.items.push(item);
     }
 
     removeItem(item) {
-        _.remove(this.items, (e) => {
-            return e === item;
-        });
+        const removeIndex = _.findIndex(this.items, (e) => { return e === item; });
+
+        this.items.splice(removeIndex, 1);
     }
 
-    getName = () => this.name;
-    clearItems = () => _.remove(this.items);
-    getItemAt = (index) => this.items[index]; 
+    printInfo() {
+        console.log(`${this.name} :: ${this.items}`);
+    }
 }
