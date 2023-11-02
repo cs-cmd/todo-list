@@ -1,3 +1,5 @@
+import TodoItem from "./TodoItem";
+
 class ProjectManager {
     constructor() {
         this.projects = new Map();
@@ -12,7 +14,11 @@ class ProjectManager {
         return typeof project === 'string' ? this.projects.get(project) : project;
     }
 
-    addItem(project, item) {
+    createTodoItem(itemName, itemDueDate, itemNotes, itemPriority) {
+        return new TodoItem(itemName, itemDueDate, itemNotes, itemPriority);
+    }
+
+    addItemToProject(project, item) {
         const proj = this.determineProject(project);
 
         return proj.addItem(item);
@@ -20,6 +26,11 @@ class ProjectManager {
 
     getProject(projectName) {
         return this.projects.get(projectName);
+    }
+
+    // returns true if project exists, false otherwise (undefined)
+    checkIfProjExists(projectName) { 
+        return this.project.get(projectName) ? true : false;
     }
 }
 

@@ -4,6 +4,7 @@ import _ from 'lodash';
 import TodoItem from './classes/model/TodoItem';
 import Project from './classes/model/Project';
 import projectManager from './classes/model/ProjectManager';
+import buttonState from './classes/controller/ButtonState';
 
 // create global objects for navigation section
 const navBar = document.getElementById('todo-nav');
@@ -181,11 +182,5 @@ function todoUpdateItems(projectName) {
     // add each item to todo container
     project.getItems().forEach((e) => { todoAddTodoPageItem(e); });
 
-    todoButton.classList.add('is-inflated');
-    if (currentButton !== null) {
-        currentButton.classList.remove('is-inflated');
-    }
-
-    currentProject = projectName;
-    currentButton = todoButton;
+    buttonState.changeButton(todoButton);
 }
