@@ -6,3 +6,19 @@
     align-items: center;
     gap: 15px;
 }
+
+.low-prio {
+    border: 2px solid green;
+}
+
+.med-prio {
+    border: 2px solid yellow;
+}
+
+.high-prio {
+    border: 2px solid orange;
+}
+
+.urge-prio {
+    border: 2px solid red;
+}

@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 export default class Project {
     constructor(name) {
         this.name = name;
@@ -19,9 +17,13 @@ export default class Project {
     }
 
     removeItem(item) {
-        const removeIndex = _.findIndex(this.items, (e) => { return e === item; });
-
-        this.items.splice(removeIndex, 1);
+        const len = this.items.length;
+        for (let i = 0; i < len; ++i) {
+            if (this.items[i] === item) {
+                this.items.splice(i, 1,);
+                return;
+            }
+        }
     }
 
     printInfo() {

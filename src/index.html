@@ -47,7 +47,7 @@
                 <legend>Create New Project</legend>
                 <label class="full-width">
                     Name:
-                    <input required minlength="5" maxlength="23" class="input-field" id="project-name" type="text"/>
+                    <input pattern="[a-zA-Z]{5,}" required minlength="5" maxlength="23" class="input-field" id="project-name" type="text"/>
                 </label>
                 <span class="error-text" id="name-exists-error">This project already exists!</span>
                 <button class="full-width" id='create-project-button' type="submit">Create</button>

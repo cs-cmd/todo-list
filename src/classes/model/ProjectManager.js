@@ -18,10 +18,6 @@ class ProjectManager {
         return proj.addItem(item);
     }
 
-    checkIfExists(projectName) {
-        return this.projects.get(projectName);
-    }
-
     getProject(projectName) {
         return this.projects.get(projectName);
     }

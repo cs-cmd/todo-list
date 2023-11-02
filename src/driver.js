@@ -3,7 +3,7 @@ import '../res/styles/todo-item-styles.css';
 import _ from 'lodash';
 import TodoItem from './classes/model/TodoItem';
 import Project from './classes/model/Project';
-import projectManager from '../src/classes/ProjectManager';
+import projectManager from './classes/model/ProjectManager';
 
 // create global objects for navigation section
 const navBar = document.getElementById('todo-nav');
@@ -125,13 +125,32 @@ function todoAddTodoPageItem(todoItem) {
     pageItem.innerText = todoItem.getInfo();
     pageItem.classList.add('todo-item');
 
+    // determine urgency CSS class based on priority of todo item
+    let prioClass;
+    switch(todoItem.getPriority()) {
+    case 'Low':
+        prioClass = 'low-prio';
+        break;
+    case 'Medium':
+        prioClass = 'med-prio';
+        break;
+    case 'High':
+        prioClass = 'high-prio';
+        break;
+    case 'Urgent':
+        prioClass = 'urge-prio';
+        break;
+    }
+
+    pageItem.classList.add(prioClass);
+
     todoContainer.appendChild(pageItem);
 }
 
 // Determines if the project already exists. if it does, set message, 
 // report, return true, else, return false
 function todoCheckProjNameExist(projectName) {
-    if(projectManager.checkIfExists(projectName)) {
+    if(projectManager.getProject(projectName)) {
         projectNameInputField.setCustomValidity('This project already exists!');
     }
     else {
@@ -142,6 +161,7 @@ function todoCheckProjNameExist(projectName) {
     return true;
 }
 
+// Updates items in todo container
 function todoUpdateItems(projectName) {
     const todoButton = navBar.querySelector(`[_filter=${projectName}]`);
 
