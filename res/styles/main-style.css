@@ -91,10 +91,12 @@ select {
 }
 
 .nav-button {
+    --transition-time: .25s;
     width: 7rem;
     background-color: var(--main-accent);
     border: none;
-    transition: filter .5s;
+    transition: filter var(--transition-time),
+    border-radius var(--transition-time);
     word-wrap: break-word;
 }
 .nav-button:hover {
@@ -106,12 +108,19 @@ select {
     transition: none;
 }
 
+.nav-button.is-inflated {
+    filter: brightness(75%);
+    border-radius: 20px;
+}
+
 .todo-container {
-    display: grid;
+    display: flex;
+    flex-direction: column;
+    /* display: grid;
     grid-template-columns: repeat(auto-fill, 250px);
     grid-template-rows: min-content;
     grid-auto-rows: min-content;
-    grid-auto-flow: dense;
+    grid-auto-flow: dense; */
     height: 100%;
     overflow: scroll;
     background-color: var(--bg-main);

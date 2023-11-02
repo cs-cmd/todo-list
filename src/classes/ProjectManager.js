@@ -1,5 +1,3 @@
-import Project from "./Project";
-
 class ProjectManager {
     constructor() {
         this.projects = new Map();
@@ -17,9 +15,7 @@ class ProjectManager {
     addItem(project, item) {
         const proj = this.determineProject(project);
 
-        proj.addItem(item);
-
-        console.log(proj);
+        return proj.addItem(item);
     }
 
     checkIfExists(projectName) {
@@ -31,6 +27,6 @@ class ProjectManager {
     }
 }
 
-const projectManager = new ProjectManager;
+const projectManager = new ProjectManager();
 
 export default projectManager;

@@ -11,5 +11,6 @@ export default class TodoItem {
     getNotes = () => this.notes;
     getPriority = () => this.priority;
 
-    printInfo = () => { console.log(`${this.title} :: ${this.dueDate} :: ${this.notes} :: ${this.priority}`); };
+    getInfo = () => { return`${this.title} :: ${this.dueDate} :: ${this.notes} :: ${this.priority}`; };
+    printInfo = () => { console.log(this.getInfo()); };
 }
