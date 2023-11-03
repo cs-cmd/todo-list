@@ -4,124 +4,33 @@ html {
 }
 
 body {
-    height: 100%;
-    margin: 0px;
-    padding: 0px;
+    background-color: aqua;
     display: flex;
-    overflow: scroll;
 }
 
 :root {
     --bg-main: #ede6ec;
     --bg-accent: #FFD4FB;
     --main-accent:#70ee7c;
-
 }
 
-/* utility styles */
-.error-text {
-    font-size: .75rem;
-    color: red;
+.project-container {
+    flex-grow: 2;
     background-color: #70ee7c;
-    text-align: center;
-    border-radius: 5px;
-    visibility: hidden;
+    max-width: 500px;
 }
 
-/* todo item entry form styles */
-.todo-entry-aside {
-    height: 100%;
-    background-color: var(--bg-accent);
-    flex: 0 0 auto;
-    padding: 0px 5px;
-    overflow: scroll;
-}
+.project-container-mobile {
 
-.todo-list-form {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin: 5px 0px;
-}
-
-.full-width {
-    grid-column: 1 / 3;
-}
-
-.input-field {
-    border: 1px solid black;
-    border-radius: 3px;
-}
-
-textarea {
-    resize: none;
-    aspect-ratio: 2/1;
-}
-
-select {
-    width: 100%;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-}
-
-.form-option {
-    width: 100%;
-    overflow: hidden;
-    color: red;
-    text-overflow:ellipsis;
-}
-
-/* todo item view styles */
-.main-section {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-}
-
-.todo-nav {
-    background-color: bisque;
-    display: flex;
-    height: 100px;
-    flex: 0 0 auto;
-    gap: 15px;
-    padding: 0px 15px;
-    overflow: hidden;
-    background-color: var(--bg-accent);
-}
-
-.nav-button {
-    --transition-time: .25s;
-    width: 7rem;
-    background-color: var(--main-accent);
-    border: none;
-    transition: filter var(--transition-time),
-    border-radius var(--transition-time);
-    word-wrap: break-word;
-}
-.nav-button:hover {
-    filter: brightness(75%);
-}
-
-.nav-button:active {
-    filter: brightness(50%);
-    transition: none;
-}
-
-.nav-button.is-inflated {
-    filter: brightness(75%);
-    border-radius: 20px;
 }
 
 .todo-container {
-    display: flex;
-    flex-direction: column;
-    /* display: grid;
-    grid-template-columns: repeat(auto-fill, 250px);
-    grid-template-rows: min-content;
-    grid-auto-rows: min-content;
-    grid-auto-flow: dense; */
-    height: 100%;
-    overflow: scroll;
-    background-color: var(--bg-main);
+    background-color: aliceblue;
+    flex-grow: 3;
+}
+
+@media screen and (max-width: 500px) {
+    .project-container {
+        display: none;
+    }
 }
