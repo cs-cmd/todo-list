@@ -1,12 +1,15 @@
 import TodoItem from "./TodoItem";
+import Project from "./Project";
 
 class ProjectManager {
     constructor() {
         this.projects = new Map();
     }
 
-    addProject(project) {
-        this.projects.set(project.getName(), project);
+    addProject(projectName) {
+        const proj = new Project(projectName);
+        this.projects.set(projectName, proj);
+        return proj;
     }
 
     // if project is a string, query map for object, otherwise return object
@@ -30,7 +33,7 @@ class ProjectManager {
 
     // returns true if project exists, false otherwise (undefined)
     checkIfProjExists(projectName) { 
-        return this.project.get(projectName) ? true : false;
+        return this.projects.get(projectName) ? true : false;
     }
 }
 

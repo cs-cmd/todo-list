@@ -20,7 +20,7 @@ export default class Project {
         const len = this.items.length;
         for (let i = 0; i < len; ++i) {
             if (this.items[i] === item) {
-                this.items.splice(i, 1,);
+                this.items.splice(i, 1);
                 return;
             }
         }

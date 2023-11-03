@@ -1,4 +1,3 @@
-import * as path from 'path';
 import '../../../res/styles/todo-item-styles.css';
 
 const buttonState = (() => {
