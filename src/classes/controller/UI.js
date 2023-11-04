@@ -1,47 +1,40 @@
 import projectManager from '../model/ProjectManager';
 import buttonState from './ButtonState';
-import _ from 'lodash';
+import _, { update } from 'lodash';
 
 const UI = (() => {
+    const todoContainer = document.getElementById('main-todo-container');
 
-    const init = () => {
-        const unassigned = projectManager.addProject('Unassigned');
-        addProjectItem(unassigned);
-    };
+    const titleInput = document.getElementById('title-field');
+    const dueDateInput = document.getElementById('date-field');
+    const notesField = document.getElementById('notes-field');
+    const priorityRadios = document.querySelectorAll('input[name="priority"]');
+    const projectSelect = document.getElementById('project-select');
+    
+    const projectNameInputField = document.getElementById('project-name');
 
-    const loadProject = (project) => {
-        const todoContainer = document.getElementById('main-todo-container');
 
+    // initial setup
+    const unassigned = projectManager.addProject('Unassigned');
+    addProjectItem(unassigned);
+
+    const clearContainer = () => {
         // clear current children in todo container
         if(todoContainer.childElementCount > 0) {
             todoContainer.querySelectorAll('*').forEach((e) => { e.remove(); });
         }
+    };
 
-        console.log(project);
+    const loadProject = (project) => {
         project.getItems().forEach((item) => {
             addTodoPageItem(item, project);
         });
     };
 
     const registerEvents = () => {
-        const titleInput = document.getElementById('title-field');
-        const dueDateInput = document.getElementById('date-field');
-        const notesField = document.getElementById('notes-field');
-        const priorityRadios = document.querySelectorAll('input[name="priority"]');
-        const projectSelect = document.getElementById('project-select');
-        
-        const projectNameInputField = document.getElementById('project-name');
-
-
-        console.log('in register events.');
         // Add event listener to input, check if project exists
         projectNameInputField.addEventListener('input', () => {
             projectManager.checkIfProjExists(projectNameInputField.value);
-        });
-
-        // Add event listener to select to update todo items when new project is selected
-        projectSelect.addEventListener('change', (e) => {
-            updateItems(e.target.value);
         });
 
         // when todo item is submitted, create, add to project, add to page
@@ -51,6 +44,7 @@ const UI = (() => {
             const title = titleInput.value;
             const dueDate = dueDateInput.value;
             const notes = notesField.value;
+
             // get value of priority that is checked
             const priority = _.find(priorityRadios, (e) => { return e.checked === true; }).value;
             const projectName = projectSelect.value;
@@ -63,14 +57,17 @@ const UI = (() => {
 
             // if item was not added, then max items have been reached, cancel
             if (!wasAdded) {
+                // notify user somehow that todo was not added
                 console.log(`:: Project '${projectName}' is at capacity. ::`);
                 return;
             }
+
+            // get the project associated with the name and add item to page
             const project = projectManager.getProject(projectName);
             addTodoPageItem(newTodo, project);
         });
 
-        // event listenerfor 'create project' form
+        // event listener for 'create project' form
         document.getElementById('create-project-form').addEventListener('submit', (e) => {
             e.preventDefault();
 
@@ -96,7 +93,6 @@ const UI = (() => {
 
     // Add project name to project spinner in todo item form
     const addProjectSelectOption = (project) => {
-        const projectSelect = document.getElementById('project-select');
         const projectName = project.getName();
 
         const projectOpt = document.createElement('option');
@@ -118,9 +114,10 @@ const UI = (() => {
         projButton.innerText = projectName;
 
         projButton.addEventListener('click', () => {
-            // clear current tasks page
-            // load project's tasks to page
-            loadProject(project);
+            clearContainer();
+            
+            // load items and change button styles
+            updateItems(project, projButton);
         });
 
         // add button to div that deletes project from project manager and deletes self from page
@@ -160,10 +157,8 @@ const UI = (() => {
             project.removeItem(todoItem);
             pageItem.remove();
         });
+
         pageItem.appendChild(deleteButton);
-        //
-        //
-        // itemProject.removeItem(todoItem);
     
         pageItem.classList.add(prioClass);
 
@@ -180,7 +175,7 @@ const UI = (() => {
         loadProject(project);
     };
 
-    return { init, registerEvents };
+    return { registerEvents };
 })();
 
 export default UI;

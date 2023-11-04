@@ -1,5 +1,5 @@
-import TodoItem from "./TodoItem";
-import Project from "./Project";
+import TodoItem from './TodoItem';
+import Project from './Project';
 
 class ProjectManager {
     constructor() {
