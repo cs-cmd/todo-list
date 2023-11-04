@@ -1,5 +1,3 @@
-import '../../../res/styles/todo-item-styles.css';
-
 const buttonState = (() => {
     let currentButton = null;
 

@@ -18,6 +18,7 @@ body {
     --main-accent:#70ee7c;
 }
 
+
 .container {
     display: flex;
     flex-direction: column;
@@ -25,6 +26,7 @@ body {
     margin: 5px;
     overflow: scroll;
     padding: 10px;
+    gap: 15px;
 }
 
 .project-container {
@@ -32,18 +34,43 @@ body {
     background-color: #70ee7c;
     max-width: 500px;
     overflow: scroll;
-    transition: width 1s;
 }
+
+.is-selected {
+    filter: brightness(75%);
+}
+
+
 
 .todo-container {
     background-color: aliceblue;
     flex-grow: 1;
 }
 
+.item {
+    display: flex;
+    justify-content: space-between;
+}
+
+.display {
+    width: 90%;
+    background-color: aquamarine;
+}
 .entry {
     background-color: #FFD4FB;
     width: 80%;
 }
+
+.project-title {
+    margin-left: 15px;
+}
+.item-buttons {
+    align-self: center;
+    justify-self: flex-end;
+    margin-right: 15px;
+}
+
+
 
 .project-container-mobile {
 

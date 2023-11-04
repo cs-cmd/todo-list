@@ -35,6 +35,10 @@ class ProjectManager {
     checkIfProjExists(projectName) { 
         return this.projects.get(projectName) ? true : false;
     }
+
+    deleteProject = (project) => {
+        return this.projects.delete(project.getName());
+    };
 }
 
 const projectManager = new ProjectManager();
