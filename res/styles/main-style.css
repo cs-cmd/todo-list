@@ -5,7 +5,11 @@ html {
 
 body {
     background-color: aqua;
+    height: 100%;
     display: flex;
+    margin: 0px;
+    padding: 0px;
+    overflow: scroll;
 }
 
 :root {
@@ -14,23 +18,45 @@ body {
     --main-accent:#70ee7c;
 }
 
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 5px;
+    overflow: scroll;
+    padding: 10px;
+}
+
 .project-container {
-    flex-grow: 2;
+    flex-grow: 1;
     background-color: #70ee7c;
     max-width: 500px;
+    overflow: scroll;
+    transition: width 1s;
+}
+
+.todo-container {
+    background-color: aliceblue;
+    flex-grow: 1;
+}
+
+.entry {
+    background-color: #FFD4FB;
+    width: 80%;
 }
 
 .project-container-mobile {
 
 }
 
-.todo-container {
-    background-color: aliceblue;
-    flex-grow: 3;
-}
+
+
+
+
+
 
 @media screen and (max-width: 500px) {
     .project-container {
-        display: none;
+        display: none;    
     }
 }
