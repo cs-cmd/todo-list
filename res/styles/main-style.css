@@ -4,18 +4,50 @@ html {
 }
 
 body {
-    background-color: aqua;
     height: 100%;
     display: flex;
+    flex-direction: column;
     margin: 0px;
     padding: 0px;
     overflow: scroll;
+    background-color: var(--main-bg);
+}
+
+button {
+    border: none;
+    background-color: var(--main-bg);
+    color: white;
+    border-radius: 5px;
+}
+
+.todo-header {
+    display: flex;
+    justify-content: center;
+    color: white;
+    text-decoration: underline;
+}
+
+.main-section {
+    display: flex;
+    overflow: scroll;
+    height: 100%;
 }
 
 :root {
-    --bg-main: #ede6ec;
-    --bg-accent: #FFD4FB;
-    --main-accent:#70ee7c;
+    --main-bg: #00293C;
+    --container-bg: #B6E8FF;
+    --proj-unselected: #2EBDFF;
+    --proj-selected: #0075AB;
+
+    --low-prio-border: #25DAB4;
+    --low-prio-bg: #25DAB490;
+    --med-prio-border: #E8F10E;
+    --med-prio-bg: #E8F10E90;
+    --high-prio-border: #EE8C11;
+    --high-prio-bg: #EE8C1190;
+    --urge-prio-border: #FB0409;
+    --urge-prio-bg: #FB040990;
+
 }
 
 
@@ -27,43 +59,126 @@ body {
     overflow: scroll;
     padding: 10px;
     gap: 15px;
+    background-color: var(--container-bg);
+    border-radius: 1rem;
 }
 
 .project-container {
     flex-grow: 1;
-    background-color: #70ee7c;
     max-width: 500px;
     overflow: scroll;
 }
 
-.is-selected {
-    filter: brightness(75%);
-}
-
-
-
 .todo-container {
-    background-color: aliceblue;
     flex-grow: 1;
 }
 
 .item {
     display: flex;
     justify-content: space-between;
+    transition: background-color .5s,
+        border-radius .5s;
 }
 
 .display {
     width: 90%;
-    background-color: aquamarine;
-}
-.entry {
-    background-color: #FFD4FB;
-    width: 80%;
+    background-color: var(--proj-unselected) ;
 }
 
+.is-selected {
+    background-color: var(--proj-selected) !important;
+    border-radius: 15px;
+}
+
+
+.todo-page-item {
+    width: min(50%, 500px);
+}
+
+.todo-title {
+
+}
+
+.todo-date {
+
+}
+
+.low-prio {
+    border: 2px solid var(--low-prio-border);
+    background-color: var(--low-prio-bg);
+}
+
+.med-prio {
+    border: 2px solid var(--med-prio-bg);
+    background-color: var(--med-prio-bg);
+}
+
+.high-prio {
+    border: 2px solid var(--high-prio-bg);
+    background-color: var(--high-prio-bg);
+}
+
+.urge-prio {
+    border: 2px solid var(--urge-prio-bg);
+    background-color: var(--urge-prio-bg);
+    color: white;
+}
+
+.todo-notes {
+    height: 5ch;
+    overflow: hidden;
+    word-wrap: break-word;
+    text-overflow: ellipsis;
+    transition: height .25s;
+    width: 250px;
+}
+
+.todo-notes:hover {
+    cursor: pointer;
+}
+.todo-notes.dropped {
+    height: 10ch;
+    overflow: scroll;
+}
+
+#todo-item-add-div {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr; 
+    gap: 1rem;
+}
+
+#priority-select {
+    grid-column: 2 / 3;
+}
+
+#todo-title-field {
+    grid-column: 1/3;
+}
+
+#todo-notes-field {
+    grid-column: 1 / 4;
+    grid-row: 3 / 5;
+    resize: none;
+}
+
+#add-todo-button {
+    grid-row: 5/6;
+    grid-column: 2/3;
+}
+
+
+
+
+.entry {
+    padding: 1rem;
+    width: 80%;
+    background-color: ;
+}
 .project-title {
     margin-left: 15px;
 }
+
 .item-buttons {
     align-self: center;
     justify-self: flex-end;
