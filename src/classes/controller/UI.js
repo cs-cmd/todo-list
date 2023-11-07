@@ -100,6 +100,14 @@ const UI = (() => {
     const createTodoPageItem = (todoItem, project) => {
         const pageItem = document.createElement('div');
         pageItem.classList.add('todo-page-item');
+        pageItem.addEventListener('mouseover', () => {
+            if (todoNotes.innerText.length > 0) {
+                todoNotes.classList.add('hovering');
+            }
+        });
+        pageItem.addEventListener('mouseout', () => {
+            todoNotes.classList.remove('hovering');
+        });
         pageItem.addEventListener('click', () => {
             if (todoNotes.innerText.length > 0) {
                 todoNotes.classList.toggle('dropped');

@@ -142,11 +142,12 @@ button {
     width: 100%;
 }
 
-.todo-notes:hover {
+.todo-notes.hovering {
+    height: 3ch;
 }
 
 .todo-notes.dropped {
-    height: 10ch;
+    height: 10ch !important;
     overflow: scroll;
 }
 
