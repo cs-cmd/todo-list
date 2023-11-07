@@ -1,6 +1,12 @@
+@font-face {
+    font-family: Noto;
+    src: url('../fonts/noto-sans/NotoSans-Regular.ttf');
+}
+
 /* page setup styles */
 html {
     height: 100vh;
+    font-family: Noto, sans-serif;
 }
 
 body {
@@ -85,11 +91,10 @@ button {
     background-color: var(--proj-unselected) ;
 }
 
-.is-selected {
+.display.is-selected {
     background-color: var(--proj-selected) !important;
     border-radius: 15px;
 }
-
 
 .todo-page-item {
     width: min(50%, 500px);
@@ -146,6 +151,7 @@ button {
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr; 
     gap: 1rem;
+    width: min(500px, 90%);
 }
 
 #priority-select {
@@ -173,7 +179,6 @@ button {
 .entry {
     padding: 1rem;
     width: 80%;
-    background-color: ;
 }
 .project-title {
     margin-left: 15px;

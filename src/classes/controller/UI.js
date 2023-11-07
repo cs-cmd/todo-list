@@ -72,7 +72,7 @@ const UI = (() => {
 
             // if project wasn't deleted, notify user
             if(!wasDeleted) {
-                console.log(`:: Project ${project.getName()} was not deleted. ::}`);
+                console.log(`:: Project ${project.getName()} was not deleted. ::`);
                 return;
             }
 
@@ -98,13 +98,6 @@ const UI = (() => {
 
     // add todo item element to page
     const createTodoPageItem = (todoItem, project) => {
-
-        /* <div class="todo-page-item">
-<h1 class="todo-title">Title</h1>
-<h3 class="todo-date">Due Date:</h3>
-<h5 class="todo-urgency">Urgency</h5>
-<p class="todo-notes"> */
-
         const pageItem = document.createElement('div');
         pageItem.classList.add('todo-item');
 
@@ -181,30 +174,49 @@ const UI = (() => {
         entryDiv.classList.add('item');
         entryDiv.classList.add('entry');
         entryDiv.id = 'project-item-add-div';
-
+        
         const projNameField = document.createElement('input');
         projNameField.classList.add('project-name-field');
         projNameField.id = 'project-name-field';
         projNameField.type = 'text';
-        projNameField.minLength = '5';
-        projNameField.maxLength = '25';
-        projNameField.required = true;
+        projNameField.addEventListener('input', () => {
+            projNameField.setCustomValidity('');
+            projNameField.reportValidity();
+        });
 
         const addButton = document.createElement('button');
         addButton.type = 'button';
         addButton.innerText = 'Add';
         addButton.addEventListener('click', () => {
-            const projectInputVal = document.getElementById('project-name-field').value;
+            const projName = projNameField.value;
+            let errorMsg = null;
 
-            if(!projectManager.checkIfProjExists(projectInputVal)) {
-                const newProj = projectManager.addProject(projectInputVal);
-
-                addProjectItem(newProj);
+            if(projName.length < 1) {
+                errorMsg = 'The project name must be at least 1 character long';
             }
+            else if (projName.length > 25) {
+                errorMsg = 'The project name must be at most 25 characters long';
+            }
+            else if (projectManager.checkIfProjExists(projName)) {
+                errorMsg = 'This project already exists';
+            }
+            else {
+                errorMsg = '';
+            }
+
+            if(errorMsg) { 
+                projNameField.setCustomValidity(errorMsg);
+                projNameField.reportValidity();
+                return;
+            }
+
+            const newProj = projectManager.addProject(projName);
+            addProjectItem(newProj);
         });
 
         entryDiv.appendChild(projNameField);
         entryDiv.appendChild(addButton);
+
         projectContainer.appendChild(entryDiv);
     };
 
