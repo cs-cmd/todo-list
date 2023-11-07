@@ -53,7 +53,6 @@ button {
     --high-prio-bg: #EE8C1190;
     --urge-prio-border: #FB0409;
     --urge-prio-bg: #FB040990;
-
 }
 
 
@@ -100,14 +99,6 @@ button {
     width: min(50%, 500px);
 }
 
-.todo-title {
-
-}
-
-.todo-date {
-
-}
-
 .low-prio {
     border: 2px solid var(--low-prio-border);
     background-color: var(--low-prio-bg);
@@ -135,18 +126,19 @@ button {
     word-wrap: break-word;
     text-overflow: ellipsis;
     transition: height .25s;
-    width: 250px;
+    width: 100%
 }
 
 .todo-notes:hover {
     cursor: pointer;
 }
+
 .todo-notes.dropped {
     height: 10ch;
     overflow: scroll;
 }
 
-#todo-item-add-div {
+#todo-entry-form{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr; 
@@ -173,9 +165,6 @@ button {
     grid-column: 2/3;
 }
 
-
-
-
 .entry {
     padding: 1rem;
     width: 80%;
@@ -190,6 +179,31 @@ button {
     margin-right: 15px;
 }
 
+.page-footer {
+    width: 100%;
+    text-align: center;
+    color: white;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.footer-text {
+    margin: 0px;
+}
+
+.source-link {
+    transition: filter .5s;
+}
+.source-link:visited, 
+.source-link:active,
+.source-link:link {
+    color: white;
+}
+
+.source-link:hover {
+    filter: brightness(50%)
+}
 
 
 .project-container-mobile {

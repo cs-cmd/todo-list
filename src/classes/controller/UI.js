@@ -99,7 +99,7 @@ const UI = (() => {
     // add todo item element to page
     const createTodoPageItem = (todoItem, project) => {
         const pageItem = document.createElement('div');
-        pageItem.classList.add('todo-item');
+        pageItem.classList.add('todo-page-item');
 
         const todoTitle = document.createElement('h1');
         todoTitle.classList.add('todo-title');
@@ -132,8 +132,10 @@ const UI = (() => {
         const todoNotes = document.createElement('p');
         todoNotes.classList.add('todo-notes');
         todoNotes.innerText = todoItem.getNotes();
-        todoNotes.addEventListener('click', (e) => {
-            todoNotes.classList.toggle('dropped');
+        todoNotes.addEventListener('click', () => {
+            if (todoNotes.innerText.length > 0) {
+                todoNotes.classList.toggle('dropped');
+            }
         });
 
         // add button that deletes item from project list 
@@ -183,9 +185,10 @@ const UI = (() => {
             projNameField.setCustomValidity('');
             projNameField.reportValidity();
         });
-
+        
         const addButton = document.createElement('button');
         addButton.type = 'button';
+        addButton.style.backgroundImage = '../../../res/images/plus.svg';
         addButton.innerText = 'Add';
         addButton.addEventListener('click', () => {
             const projName = projNameField.value;
@@ -212,6 +215,7 @@ const UI = (() => {
 
             const newProj = projectManager.addProject(projName);
             addProjectItem(newProj);
+            projNameField.value = '';
         });
 
         entryDiv.appendChild(projNameField);
@@ -222,34 +226,22 @@ const UI = (() => {
 
 
     const addTodoEntryItem = () => {
-        const entryDiv = document.createElement('div');
-        entryDiv.classList.add('item');
-        entryDiv.classList.add('entry');
-        entryDiv.id = 'todo-item-add-div';
+        const todoItemForm = document.createElement('form');
+        todoItemForm.classList.add('item');
+        todoItemForm.classList.add('entry');
+        todoItemForm.method = 'POST';
+        todoItemForm.action = '#';
+        todoItemForm.id = 'todo-entry-form';
 
         const todoTitleField = document.createElement('input');
         todoTitleField.type = 'text';
         todoTitleField.id = 'todo-title-field';
+        todoTitleField.required = true;
 
         const todoDueDateField = document.createElement('input');
         todoDueDateField.type = 'date';
         todoDueDateField.id = 'todo-date-field';
-
-        const addTodoButton = document.createElement('button');
-        addTodoButton.id = 'add-todo-button';
-        addTodoButton.type = 'button';
-        addTodoButton.innerText = 'Add';
-        addTodoButton.addEventListener('click', () => {            
-            // make new todo
-            const newTodo = new TodoItem(todoTitleField.value, todoDueDateField.value, notesField.value, prioritySelect.value);
-            // if project has max items, done add and return
-            if(!projectManager.addItemToProject(currentProject, newTodo)) {
-                return;
-            }
-            const pageItem = createTodoPageItem(newTodo, currentProject);
-
-            todoContainer.insertBefore(pageItem, entryDiv);
-        });
+        todoDueDateField.required = true;
 
         const prioritySelect = document.createElement('select');
         prioritySelect.id = 'priority-select';
@@ -271,6 +263,11 @@ const UI = (() => {
         urgePrio.innerText = 'Urgent Priority';
         urgePrio.value = 'Urgent';
 
+        const addTodoButton = document.createElement('button');
+        addTodoButton.id = 'add-todo-button';
+        addTodoButton.type = 'submit';
+        addTodoButton.innerText = 'Add';
+
         prioritySelect.appendChild(lowPrio);
         prioritySelect.appendChild(medPrio);
         prioritySelect.appendChild(highPrio);
@@ -281,15 +278,32 @@ const UI = (() => {
         notesField.id = 'todo-notes-field';
         notesField.placeholder = 'Notes...';
 
-        entryDiv.appendChild(todoTitleField);
-        entryDiv.appendChild(todoDueDateField);
-        entryDiv.appendChild(prioritySelect);
-        entryDiv.appendChild(notesField);
+        todoItemForm.appendChild(todoTitleField);
+        todoItemForm.appendChild(todoDueDateField);
+        todoItemForm.appendChild(prioritySelect);
+        todoItemForm.appendChild(notesField);
 
-        entryDiv.appendChild(addTodoButton);
+        todoItemForm.appendChild(addTodoButton);
 
-        todoContainer.appendChild(entryDiv);
+        todoItemForm.addEventListener('submit', (e) => {
+            e.preventDefault();
 
+            // make new todo
+            const newTodo = new TodoItem(todoTitleField.value, todoDueDateField.value, notesField.value, prioritySelect.value);
+            // if project has max items, done add and return
+            projectManager.addItemToProject(currentProject, newTodo);
+            
+            const pageItem = createTodoPageItem(newTodo, currentProject);
+
+            todoContainer.insertBefore(pageItem, todoItemForm);
+
+            todoTitleField.value = '';
+            todoDueDateField.value = null;
+            notesField.value = '';
+        });
+
+
+        todoContainer.appendChild(todoItemForm);
     };
 
     // initial setup
