@@ -69,13 +69,13 @@ button {
 }
 
 .project-container {
-    flex-grow: 1;
+    flex: 1 1 auto;
     max-width: 500px;
     overflow: scroll;
 }
 
 .todo-container {
-    flex-grow: 1;
+    flex: 1 1 auto;
 }
 
 .item {
@@ -87,7 +87,7 @@ button {
 
 .display {
     width: 90%;
-    background-color: var(--proj-unselected) ;
+    background-color: var(--proj-unselected);
 }
 
 .display.is-selected {
@@ -97,6 +97,13 @@ button {
 
 .todo-page-item {
     width: min(50%, 500px);
+    cursor: pointer;
+}
+
+.todo-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .low-prio {
@@ -120,17 +127,22 @@ button {
     color: white;
 }
 
+.todo-title {
+    overflow:hidden;
+    white-space: nowrap;
+}
+
 .todo-notes {
-    height: 5ch;
+    height: 0ch;
+    margin: 0px;
     overflow: hidden;
     word-wrap: break-word;
     text-overflow: ellipsis;
     transition: height .25s;
-    width: 100%
+    width: 100%;
 }
 
 .todo-notes:hover {
-    cursor: pointer;
 }
 
 .todo-notes.dropped {

@@ -100,6 +100,15 @@ const UI = (() => {
     const createTodoPageItem = (todoItem, project) => {
         const pageItem = document.createElement('div');
         pageItem.classList.add('todo-page-item');
+        pageItem.addEventListener('click', () => {
+            if (todoNotes.innerText.length > 0) {
+                todoNotes.classList.toggle('dropped');
+            }
+        });
+
+        // contains all todo info but the notes
+        const todoInfo = document.createElement('section');
+        todoInfo.classList.add('todo-info');
 
         const todoTitle = document.createElement('h1');
         todoTitle.classList.add('todo-title');
@@ -132,11 +141,6 @@ const UI = (() => {
         const todoNotes = document.createElement('p');
         todoNotes.classList.add('todo-notes');
         todoNotes.innerText = todoItem.getNotes();
-        todoNotes.addEventListener('click', () => {
-            if (todoNotes.innerText.length > 0) {
-                todoNotes.classList.toggle('dropped');
-            }
-        });
 
         // add button that deletes item from project list 
         const deleteButton = document.createElement('button');
@@ -146,11 +150,13 @@ const UI = (() => {
             pageItem.remove();
         });
 
-        pageItem.appendChild(todoTitle);
-        pageItem.appendChild(todoDueDate);
-        pageItem.appendChild(todoPriority);
+        todoInfo.appendChild(todoTitle);
+        todoInfo.appendChild(todoDueDate);
+        todoInfo.appendChild(todoPriority);
+        todoInfo.appendChild(deleteButton);
+
+        pageItem.appendChild(todoInfo);
         pageItem.appendChild(todoNotes);
-        pageItem.appendChild(deleteButton);
     
         pageItem.classList.add(prioClass);
 
@@ -272,7 +278,6 @@ const UI = (() => {
         prioritySelect.appendChild(medPrio);
         prioritySelect.appendChild(highPrio);
         prioritySelect.appendChild(urgePrio);
-
 
         const notesField = document.createElement('textarea');
         notesField.id = 'todo-notes-field';
