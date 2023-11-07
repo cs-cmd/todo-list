@@ -13,7 +13,8 @@ const storageWriter = (() => {
     const readFromLocal = (projectName) => {
         const projectJSON = local.getItem(projectName);
 
-        if(projectJSON === undefined) {
+        if(projectJSON === undefined ||
+            projectJSON === null) {
             return null;
         }
 
@@ -21,14 +22,12 @@ const storageWriter = (() => {
 
         const todoItems = [];
         object.items.forEach(e => {
-            console.log(e);
             const addTodo = new TodoItem(e.title, e.dueDate, e.notes, e.priority);
 
             todoItems.push(addTodo);
         });
 
         return Project.createWithData(object.name, todoItems);
-
     };
 
     const deleteRecord = (projectName) => {
@@ -36,9 +35,26 @@ const storageWriter = (() => {
     };
 
 
+    const loadAllData = () => {
+        const localSize = local.length;
+        if (localSize == 0) {
+            return null;
+        }
+        else {
+            const retProjs = [];
+
+            console.log({...local});
+            for (let key in {...local}) {
+                const addVal = readFromLocal(key);
+                retProjs.push(addVal);
+            }
+
+            return retProjs;
+        } 
+    };
 
 
-    return { writeToLocal, readFromLocal, deleteRecord };
+    return { writeToLocal, readFromLocal, deleteRecord, loadAllData };
 })();
 
 export default storageWriter;

@@ -12,6 +12,10 @@ class ProjectManager {
         return proj;
     }
 
+    addExistingProject(project) {
+        this.projects.set(project.getName(), project);
+    }
+
     // if project is a string, query map for object, otherwise return object
     determineProject(project) {
         return typeof project === 'string' ? this.projects.get(project) : project;

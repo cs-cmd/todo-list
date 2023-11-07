@@ -73,7 +73,14 @@ const UI = (() => {
         const deleteButton = createButton('delete');
         deleteButton.type = 'button';
         deleteButton.addEventListener('click', () => {
+            storageWriter.deleteRecord(project.getName());
+
             const wasDeleted = projectManager.deleteProject(project);
+
+
+            if (currentProject === project) {
+                clearTodoContainer();
+            }
 
             // if project wasn't deleted, notify user
             if(!wasDeleted) {
@@ -83,7 +90,7 @@ const UI = (() => {
 
             projectItem.remove();
 
-            storageWriter.deleteRecord(project);
+
         });
 
         // add buttons to button section
@@ -367,17 +374,34 @@ const UI = (() => {
 
     // initial setup
     const setup = () => {
-        let unassigned = storageWriter.readFromLocal('Unassigned');
+        const parsedProjs = storageWriter.loadAllData();
 
-        // if unassigned is not in local storage, create and add
-        if(unassigned === null) {
-            unassigned = projectManager.addProject('Unassigned');
+        console.log(parsedProjs);
+        
+        let firstProj;
+
+        if(parsedProjs === null) {
+            firstProj = projectManager.addProject('Unassigned');
+            addProjectButton(firstProj);
         }
 
-        addProjectItem(unassigned);
+        else {
+            let i = 0;
+            const parseLen = parsedProjs.length;
+            console.log(parseLen);
+            for(let proj in {...parsedProjs}) {
+
+                projectManager.addExistingProject(parsedProjs[proj]);
+                addProjectItem(parsedProjs[proj]);
+            }
+
+            firstProj = parsedProjs[0];
+        }
+
+
 
         const firstProjButton = projectContainer.querySelector('div.item');
-        updateItems(unassigned, firstProjButton);
+        updateItems(firstProj, firstProjButton);
 
         addProjectEntryItem();
     };
