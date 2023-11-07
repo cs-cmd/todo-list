@@ -1,11 +1,14 @@
 import projectManager from '../model/ProjectManager';
 import TodoItem from '../model/TodoItem';
 import buttonState from './ButtonState';
+import storageWriter from './StorageWriter';
 
 const UI = (() => {
+    // global state vars for todo container and project container
     const todoContainer = document.getElementById('main-todo-container');
     const projectContainer = document.getElementById('main-project-container');
 
+    // current project (set when loading project)
     let currentProject = null;
 
     const clearTodoContainer = () => {
@@ -15,6 +18,7 @@ const UI = (() => {
         }
     };
 
+    // add each item to page, then add todo entry item
     const loadProject = (project) => {
         project.getItems().forEach((item) => {
             addTodoPageItem(item, project);
@@ -22,6 +26,7 @@ const UI = (() => {
         addTodoEntryItem(); 
     };
 
+    // add project item
     const addProjectItem = (project) => {
         // add project filter button to nav
         addProjectButton(project);
@@ -29,6 +34,7 @@ const UI = (() => {
 
     // Add project button to top nav bar
     const addProjectButton = (project) => {
+        // get 'add project' button
         const addProjectPageItem = document.getElementById('project-item-add-div');
 
         // add to main project container
@@ -60,12 +66,11 @@ const UI = (() => {
         buttonsSection.classList.add('item-buttons');
 
         // create edit and delete buttons
-        const editButton = document.createElement('button');
-        editButton.innerText = 'Edit';
+        const editButton = createButton('edit');
         editButton.type = 'button';
 
-        const deleteButton = document.createElement('button');
-        deleteButton.innerText = 'Delete';
+        // create delete button
+        const deleteButton = createButton('delete');
         deleteButton.type = 'button';
         deleteButton.addEventListener('click', () => {
             const wasDeleted = projectManager.deleteProject(project);
@@ -77,6 +82,8 @@ const UI = (() => {
             }
 
             projectItem.remove();
+
+            storageWriter.deleteRecord(project);
         });
 
         // add buttons to button section
@@ -87,9 +94,11 @@ const UI = (() => {
         projectItem.appendChild(projectNameHeader);
         projectItem.appendChild(buttonsSection);
 
+        // insert project before addProjectButton
         projectContainer.insertBefore(projectItem, addProjectPageItem);
     };
 
+    // Create and add todo page item
     const addTodoPageItem = (todoItem, project) => {
         const pageItem = createTodoPageItem(todoItem, project);
         const entryItem = todoContainer.querySelector('#todo-item-add-div');
@@ -98,16 +107,23 @@ const UI = (() => {
 
     // add todo item element to page
     const createTodoPageItem = (todoItem, project) => {
+        // create containing div
         const pageItem = document.createElement('div');
         pageItem.classList.add('todo-page-item');
+
+        // on mouse over, if notes is not empty, display preview by slightly enlarging height
         pageItem.addEventListener('mouseover', () => {
             if (todoNotes.innerText.length > 0) {
                 todoNotes.classList.add('hovering');
             }
         });
+
+        // remove height change
         pageItem.addEventListener('mouseout', () => {
             todoNotes.classList.remove('hovering');
         });
+
+        // on click, display all text
         pageItem.addEventListener('click', () => {
             if (todoNotes.innerText.length > 0) {
                 todoNotes.classList.toggle('dropped');
@@ -118,16 +134,15 @@ const UI = (() => {
         const todoInfo = document.createElement('section');
         todoInfo.classList.add('todo-info');
 
+        // todo title item
         const todoTitle = document.createElement('h1');
         todoTitle.classList.add('todo-title');
         todoTitle.innerText = todoItem.getTitle();
 
+        // todo due date item
         const todoDueDate = document.createElement('h3');
         todoDueDate.classList.add('todo-date');
         todoDueDate.innerText = todoItem.getDueDate();
-
-        const todoPriority = document.createElement('h5');
-        todoPriority.innerText = todoItem.getPriority();
 
         // determine urgency CSS class based on priority of todo item
         let prioClass;
@@ -146,26 +161,29 @@ const UI = (() => {
             break;
         }
 
+        // todo notes
         const todoNotes = document.createElement('p');
         todoNotes.classList.add('todo-notes');
         todoNotes.innerText = todoItem.getNotes();
 
         // add button that deletes item from project list 
-        const deleteButton = document.createElement('button');
-        deleteButton.innerText = 'Delete';
+        const deleteButton = createButton('delete');
         deleteButton.addEventListener('click', () => {
             project.removeItem(todoItem);
             pageItem.remove();
+            storageWriter.writeToLocal(project);
         });
 
+        // add all but notes to todo info item
         todoInfo.appendChild(todoTitle);
         todoInfo.appendChild(todoDueDate);
-        todoInfo.appendChild(todoPriority);
         todoInfo.appendChild(deleteButton);
 
+        // add todo info and notes to page item
         pageItem.appendChild(todoInfo);
         pageItem.appendChild(todoNotes);
     
+        // add prio class
         pageItem.classList.add(prioClass);
 
         return pageItem;
@@ -182,28 +200,23 @@ const UI = (() => {
 
         loadProject(project);
         currentProject = project;
-
     };
 
     const addProjectEntryItem = () => {
+        // create containing div
         const entryDiv = document.createElement('div');
         entryDiv.classList.add('item');
         entryDiv.classList.add('entry');
         entryDiv.id = 'project-item-add-div';
         
+        // create project field name input
         const projNameField = document.createElement('input');
         projNameField.classList.add('project-name-field');
         projNameField.id = 'project-name-field';
         projNameField.type = 'text';
-        projNameField.addEventListener('input', () => {
-            projNameField.setCustomValidity('');
-            projNameField.reportValidity();
-        });
         
-        const addButton = document.createElement('button');
-        addButton.type = 'button';
-        addButton.style.backgroundImage = '../../../res/images/plus.svg';
-        addButton.innerText = 'Add';
+        // add button
+        const addButton = createButton('add');
         addButton.addEventListener('click', () => {
             const projName = projNameField.value;
             let errorMsg = null;
@@ -230,12 +243,43 @@ const UI = (() => {
             const newProj = projectManager.addProject(projName);
             addProjectItem(newProj);
             projNameField.value = '';
+
+            storageWriter.writeToLocal(newProj);
         });
 
         entryDiv.appendChild(projNameField);
         entryDiv.appendChild(addButton);
 
         projectContainer.appendChild(entryDiv);
+    };
+
+    // valid types are 'add', 'delete', and 'edit'
+    const createButton = (type) => {
+        const addButton = document.createElement('button');
+        addButton.type = 'button';
+
+        let buttonTypeSrc;
+        switch(type) {
+        case 'add':
+            buttonTypeSrc = '../../../res/images/plus.svg';
+            break;
+        case 'delete':
+            buttonTypeSrc = '../../../res/images/trash.svg';
+            break;
+        case 'edit':
+            buttonTypeSrc = '../../../res/images/edit.svg';
+            break;
+        default:
+            buttonTypeSrc = '../../../res/images/x-circle.svg';
+            break;
+        }
+
+        const buttonImage = document.createElement('img');
+        buttonImage.src = buttonTypeSrc;
+        addButton.appendChild(buttonImage);
+        addButton.classList.add('page-button');
+
+        return addButton;
     };
 
 
@@ -277,10 +321,9 @@ const UI = (() => {
         urgePrio.innerText = 'Urgent Priority';
         urgePrio.value = 'Urgent';
 
-        const addTodoButton = document.createElement('button');
+        const addTodoButton = createButton('add');
         addTodoButton.id = 'add-todo-button';
         addTodoButton.type = 'submit';
-        addTodoButton.innerText = 'Add';
 
         prioritySelect.appendChild(lowPrio);
         prioritySelect.appendChild(medPrio);
@@ -294,9 +337,10 @@ const UI = (() => {
         todoItemForm.appendChild(todoTitleField);
         todoItemForm.appendChild(todoDueDateField);
         todoItemForm.appendChild(prioritySelect);
+        todoItemForm.appendChild(addTodoButton);
+
         todoItemForm.appendChild(notesField);
 
-        todoItemForm.appendChild(addTodoButton);
 
         todoItemForm.addEventListener('submit', (e) => {
             e.preventDefault();
@@ -313,6 +357,8 @@ const UI = (() => {
             todoTitleField.value = '';
             todoDueDateField.value = null;
             notesField.value = '';
+
+            storageWriter.writeToLocal(currentProject);
         });
 
 
@@ -321,8 +367,13 @@ const UI = (() => {
 
     // initial setup
     const setup = () => {
-        
-        const unassigned = projectManager.addProject('Unassigned');
+        let unassigned = storageWriter.readFromLocal('Unassigned');
+
+        // if unassigned is not in local storage, create and add
+        if(unassigned === null) {
+            unassigned = projectManager.addProject('Unassigned');
+        }
+
         addProjectItem(unassigned);
 
         const firstProjButton = projectContainer.querySelector('div.item');

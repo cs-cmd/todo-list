@@ -24,4 +24,15 @@ export default class Project {
     printInfo() {
         console.log(`${this.name} :: ${this.items}`);
     }
+
+    static createWithData(name, items) {
+        const retProj = new Project();
+        retProj.name = name;
+        retProj.items = [];
+        items.forEach(e => {
+            retProj.items.push(e);
+        });
+
+        return retProj;
+    }
 }
